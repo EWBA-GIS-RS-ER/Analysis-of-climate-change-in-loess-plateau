@@ -50,7 +50,7 @@ lake_add = []
 for  i in  htgy["区站号"].unique():
     pool = htgy[htgy["区站号"]==i]["年"].unique()
     if min(pool) >  1981:
-        lake_drop.apped(i)
+        lake_drop.append(i)
         pass
     else:
         lake_add.append(i)
