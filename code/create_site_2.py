@@ -26,9 +26,14 @@ for i in res["区站号"].values:
     
     med_two = data[data["区站号"]== i]["经度"].unique().max()
     pool["经度"].append(med_two//100 + med_two % 100 / 60)
-    
-    med_three = data[data["区站号"]== i]["高程"].unique().max()/10
-    pool["高程"].append(med_three)
+############ 当台站海拔高度为估测值时，在估测数据基础上加100000，加一条判断，修订海拔估测值  
+    if data[data["sid"] == i]["elev"].unique().max() < 100000:
+        med_three = data[data["sid"] == i]["elev"].unique().max() / 10
+        pool["elev"].append(med_three)
+        pass
+    else:
+        med_three = (data[data["sid"] == i]["elev"].unique().max()- 100000) * 0.1
+        pool["elev"].append(med_three)
     
 med_data = pd.DataFrame(pool,index = res["区站号"].values)
 
